@@ -24,7 +24,7 @@ ORDER BY country desc
 
 ),
 
-sums AS (SELECT customer_id, country, total_sum, lead(total_sum, 1) over (partition by country order by country, total_sum desc) previous, lag(total_sum, 1) over (partition by country order by country, total_sum) difference 
+sums AS (SELECT customer_id, country, total_sum, lead(total_sum, 1) over (partition by country order by country, total_sum desc) previous, total_sum - lag(total_sum, 1) over (partition by country order by country, total_sum) difference 
 		 FROM product_totals_country)
 
 SELECT * from sums;
